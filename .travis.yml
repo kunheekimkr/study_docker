@@ -11,7 +11,7 @@ before_install:
 script:
   - docker run -e CI=true 2002tony/react-test-app npm run test
 
-after_succes:
+after_success:
   - docker build -t 2002tony/docker-frontend ./frontend
   - docker build -t 2002tony/docker-backend ./backend
   - docker build -t 2002tony/docker-nginx ./nginx
@@ -21,3 +21,16 @@ after_succes:
   - docker push 2002tony/docker-frontend
   - docker push 2002tony/docker-backend
   - docker push 2002tony/docker-nginx
+
+deploy:
+  provider: elasticbeanstalk
+  region: "us-west-2"
+  app: "docker-fullstack-app"
+  env: "Dockerfullstackapp-env"
+  bucket_name: "elasticbeanstalk-us-west-2-988197037380"
+  bucket_path: "docker-fullstack-app"
+  on:
+    branch: main
+
+  access_key_id: $AWS_ACCESS_KEY
+  secret_access_key: $AWS_SECRET_ACCESS_KEY
