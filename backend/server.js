@@ -3,14 +3,17 @@ const bodyParser = require("body-parser");
 
 const db = require("./db");
 
+
 const app = express();
+
 
 app.use(bodyParser.json());
 
+
 db.pool.query(
-  `CREATE TABLE lists(
+  `CREATE TABLE lists (
     id INTEGER AUTO_INCREMENT,
-    value TEXT,
+    value TEXT, 
     PRIMARY KEY (id)
 )`,
   (err, results, fields) => {
@@ -18,14 +21,17 @@ db.pool.query(
   }
 );
 
-app.get("api/values", function (req, res) {
+app.get("/api/values", function (req, res) {
+
   db.pool.query("SELECT * FROM lists;", (err, results, fields) => {
     if (err) return res.status(500).send(err);
     else return res.json(results);
   });
 });
 
-app.post("api/values", function (req, res, next) {
+
+app.post("/api/value", function (req, res, next) {
+
   db.pool.query(
     `INSERT INTO lists (value) VALUES("${req.body.value}")`,
     (err, results, fields) => {
