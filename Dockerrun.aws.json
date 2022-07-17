@@ -23,7 +23,7 @@
       "portMappings": [
         {
           "hostPort": 80,
-          "containertPort": 80
+          "containerPort": 80
         }
       ],
       "links": ["frontend", "backend"],
